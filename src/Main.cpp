@@ -1,6 +1,6 @@
 #include "Load.h" //Loading Functions
 #include "Event_Handler.h"
-#include <stdlib.h>
+
 
 //Vars
 SDL_Surface* screen = NULL; //Screen
