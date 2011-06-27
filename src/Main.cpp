@@ -1,6 +1,6 @@
 #include "Load.h" //Loading Functions
 #include "Event_Handler.h"
-
+#include <stdlib.h>
 
 //Vars
 SDL_Surface* screen = NULL; //Screen
@@ -40,8 +40,8 @@ bool init()
 bool load_files()
 {
 	//Load images
-	background = load_image("background.png");
-	img1 = load_image("blast.png");
+	background = load_image("img/background.png");
+	img1 = load_image("img/blast.png");
 
 	//If there was an error in loading the image
 	if( background == NULL || img1 == NULL )
@@ -68,6 +68,8 @@ void clean_up()
 //**********************************************************//
 int main( int argc, char* args[] )
 {
+
+    system("pwd");
 	//Vars
 	bool quit = false;
 

@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1309050643 source:/home/abelmaio/SDL_Genesis/src/Event_Handler.cpp
+	"Event_Handler.h"
+
+1309050725 /home/abelmaio/SDL_Genesis/src/Event_Handler.h
+	"Globals.h"
+
+1309050897 /home/abelmaio/SDL_Genesis/src/Globals.h
+	"SDL/SDL.h"
+	"SDL/SDL_image.h"
+	"SDL/SDL_ttf.h"
+	"SDL/SDL_mixer.h"
+
+1309048837 source:/home/abelmaio/SDL_Genesis/src/Load.cpp
+	"Load.h"
+
+1309049266 /home/abelmaio/SDL_Genesis/src/Load.h
+	"Globals.h"
+	<string>
+
+1309051324 source:/home/abelmaio/SDL_Genesis/src/Main.cpp
+	"Load.h"
+	"Event_Handler.h"
+
