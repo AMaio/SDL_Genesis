@@ -35,8 +35,12 @@
 		<Linker>
 			<Add option="`sdl-config --libs`" />
 		</Linker>
-		<Unit filename="cb.bmp" />
-		<Unit filename="main.cpp" />
+		<Unit filename="src/Event_Handler.cpp" />
+		<Unit filename="src/Event_Handler.h" />
+		<Unit filename="src/Globals.h" />
+		<Unit filename="src/Load.cpp" />
+		<Unit filename="src/Load.h" />
+		<Unit filename="src/Main.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

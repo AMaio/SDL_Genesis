@@ -5,16 +5,16 @@
 1309050725 /home/abelmaio/SDL_Genesis/src/Event_Handler.h
 	"Globals.h"
 
-1309050897 /home/abelmaio/SDL_Genesis/src/Globals.h
+1309214210 /home/abelmaio/SDL_Genesis/src/Globals.h
 	"SDL/SDL.h"
 	"SDL/SDL_image.h"
 	"SDL/SDL_ttf.h"
 	"SDL/SDL_mixer.h"
 
-1309048837 source:/home/abelmaio/SDL_Genesis/src/Load.cpp
+1309213622 source:/home/abelmaio/SDL_Genesis/src/Load.cpp
 	"Load.h"
 
-1309049266 /home/abelmaio/SDL_Genesis/src/Load.h
+1309213570 /home/abelmaio/SDL_Genesis/src/Load.h
 	"Globals.h"
 	<string>
 

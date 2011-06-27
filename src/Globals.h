@@ -11,6 +11,7 @@
 //Defines
 #define ERR_INIT 1;
 #define ERR_LOAD_FILES 2;
+#define ERR_UPDATE_SCREEN 3;
 
 
 //Includes

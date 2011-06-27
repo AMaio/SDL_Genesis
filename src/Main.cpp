@@ -7,6 +7,7 @@ SDL_Surface* screen = NULL; //Screen
 SDL_Surface* background = NULL;
 SDL_Surface* img1 = NULL;
 SDL_Event event; //For event processing
+SDL_Rect clip[4]; //Array for the clipping
 const char* SCREEN_TITLE = "SDL APPLICATION";
 
 
@@ -41,7 +42,7 @@ bool load_files()
 {
 	//Load images
 	background = load_image("img/background.png");
-	img1 = load_image("img/blast.png");
+	img1 = load_image("img/dots.png");
 
 	//If there was an error in loading the image
 	if( background == NULL || img1 == NULL )
@@ -63,13 +64,36 @@ void clean_up()
 	SDL_Quit();
 }
 
+void clip_dots()
+{
+    clip[0].x = 0;
+    clip[0].y = 0;
+    clip[0].w = 100;
+    clip[0].h = 100;
+
+    clip[1].x = 100;
+    clip[1].y = 0;
+    clip[1].w = 100;
+    clip[1].h = 100;
+
+    clip[2].x = 0;
+    clip[2].y = 100;
+    clip[2].w = 100;
+    clip[2].h = 100;
+
+    clip[3].x = 100;
+    clip[3].y = 100;
+    clip[3].w = 100;
+    clip[3].h = 100;
+
+}
+
 //**********************************************************//
 //***********************MAIN BODY**************************//
 //**********************************************************//
 int main( int argc, char* args[] )
 {
 
-    system("pwd");
 	//Vars
 	bool quit = false;
 
@@ -85,8 +109,25 @@ int main( int argc, char* args[] )
 		return ERR_LOAD_FILES;
 	}
 
-	apply_surface(0,0,background,screen);
-	apply_surface(200,200,img1,screen);
+
+    //Clipping the dots for the example
+    clip_dots();
+
+    //Fill the screen white
+	SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0xFF,0xFF,0xFF));
+
+    //Apply images to the screen
+    apply_surface(0,0,img1,screen,&clip[0]);
+    apply_surface(540,380,img1,screen,&clip[3]);
+	//apply_surface(0,0,background,screen,NULL);
+	//apply_surface(200,200,img1,screen,NULL);
+
+    //Update the screen
+    if ( SDL_Flip( screen ) == -1 )
+    {
+    	return ERR_UPDATE_SCREEN;
+    }
+
 
 	//Main LOOP - The Magic Happens Here
 	while(!quit)
