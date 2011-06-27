@@ -1,11 +1,29 @@
-SDL Genesis Project
+*******************************
+***** SDL Genesis Project *****
+*******************************
+Jun 2011
 
-- A simple program/engine using SDL and C++ to start up with SDL Libraries and GIT repo.
 
 
-The first projects that will be developed with SDL are simple clone games like pong. In the future I'll try to make some original games.
+This is my first project using SDL and GIT.
+
+The main objective of this project is to learn about SDL, learn how to use GIT and remember what I forgot about C++.
+
+
+Initially I will follow the great tutorial of Lazy Foo (Link below).
+Next I will make a little clone of a simple game. Not decided what game for now.
+
+Maybe in the future I'll make an original game with everything that I learned.
 
 
 Learning is a good thing. ;)
+
+
+
+***************
+***************
+
+Lazy Foo's Website: http://lazyfoo.net/
+
 
 
