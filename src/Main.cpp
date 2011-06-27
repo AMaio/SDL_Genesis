@@ -8,8 +8,12 @@ SDL_Surface* background = NULL;
 SDL_Surface* img1 = NULL;
 SDL_Event event; //For event processing
 SDL_Rect clip[4]; //Array for the clipping
+SDL_Surface* message = NULL; //For TTF test
+TTF_Font* font = NULL; //For the font used.
+SDL_Color textColor = {0,0,0};
 const char* SCREEN_TITLE = "SDL APPLICATION";
-
+const char* fontFile = "img/Ubuntu-R.ttf";
+const int fontSize = 30;
 
 //************************************************************//
 //******************** LOADING FUNCTIONS ********************//
@@ -31,6 +35,12 @@ bool init()
 		return false;
 	}
 
+	//Initialize SDL_ttf
+	if ( TTF_Init() == -1 )
+	{
+		return false;
+	}
+
 	//Set the window caption
 	SDL_WM_SetCaption( SCREEN_TITLE, NULL );
 
@@ -44,10 +54,19 @@ bool load_files()
 	background = load_image("img/background.png");
 	img1 = load_image("img/dots.png");
 
+    //open the font
+    font = TTF_OpenFont(fontFile,fontSize);
+
 	//If there was an error in loading the image
 	if( background == NULL || img1 == NULL )
 	{
 		return false;
+	}
+
+	//Check for errors on opening the font
+	if( font == NULL )
+	{
+	    return false;
 	}
 
 	//If everything OK
@@ -59,6 +78,12 @@ void clean_up()
 	//Free the images
 	SDL_FreeSurface( background );
 	SDL_FreeSurface( img1 );
+
+	//Close the font
+	TTF_CloseFont(font);
+
+	//Quit SDL_ttf
+	TTF_Quit();
 
 	//Quit SDL
 	SDL_Quit();
@@ -111,15 +136,19 @@ int main( int argc, char* args[] )
 
 
     //Clipping the dots for the example
-    clip_dots();
+    //clip_dots();
 
     //Fill the screen white
-	SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0xFF,0xFF,0xFF));
+	//SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0xFF,0xFF,0xFF));
+
+    //Render the text
+    message = TTF_RenderText_Solid(font,"The amazing font appears here!",textColor);
 
     //Apply images to the screen
-    apply_surface(0,0,img1,screen,&clip[0]);
-    apply_surface(540,380,img1,screen,&clip[3]);
-	//apply_surface(0,0,background,screen,NULL);
+    //apply_surface(0,0,img1,screen,&clip[0]);
+    //apply_surface(540,380,img1,screen,&clip[3]);
+	apply_surface(0,0,background,screen,NULL);
+	apply_surface(50,200,message,screen,NULL);
 	//apply_surface(200,200,img1,screen,NULL);
 
     //Update the screen
