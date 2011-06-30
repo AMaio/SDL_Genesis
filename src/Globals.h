@@ -26,12 +26,11 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 const int SCREEN_BPP = 32;
 
+const int CLIP_MOUSEOVER = 0;
+const int CLIP_MOUSEOUT = 1;
+const int CLIP_MOUSEDOWN = 2;
+const int CLIP_MOUSEUP = 3;
 
-
-
-
-
-//Error codes
 
 
 

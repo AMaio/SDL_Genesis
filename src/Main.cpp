@@ -1,5 +1,6 @@
 #include "Load.h" //Loading Functions
 #include "Event_Handler.h"
+#include "Button.h"
 
 
 //Vars
@@ -7,7 +8,7 @@ SDL_Surface* screen = NULL; //Screen
 SDL_Surface* background = NULL;
 SDL_Surface* img1 = NULL;
 SDL_Event event; //For event processing
-SDL_Rect clip[4]; //Array for the clipping
+SDL_Rect clips[4]; //Array for the clipping
 SDL_Surface* message = NULL; //For TTF test
 TTF_Font* font = NULL; //For the font used.
 SDL_Color textColor = {0,0,0};
@@ -52,7 +53,7 @@ bool load_files()
 {
 	//Load images
 	background = load_image("img/background.png");
-	img1 = load_image("img/dots.png");
+	img1 = load_image("img/button.png");
 
     //open the font
     font = TTF_OpenFont(fontFile,fontSize);
@@ -89,27 +90,27 @@ void clean_up()
 	SDL_Quit();
 }
 
-void clip_dots()
+void set_clips()
 {
-    clip[0].x = 0;
-    clip[0].y = 0;
-    clip[0].w = 100;
-    clip[0].h = 100;
+    clips[0].x = 0;
+    clips[0].y = 0;
+    clips[0].w = 320;
+    clips[0].h = 240;
 
-    clip[1].x = 100;
-    clip[1].y = 0;
-    clip[1].w = 100;
-    clip[1].h = 100;
+    clips[1].x = 320;
+    clips[1].y = 0;
+    clips[1].w = 320;
+    clips[1].h = 240;
 
-    clip[2].x = 0;
-    clip[2].y = 100;
-    clip[2].w = 100;
-    clip[2].h = 100;
+    clips[2].x = 0;
+    clips[2].y = 240;
+    clips[2].w = 320;
+    clips[2].h = 240;
 
-    clip[3].x = 100;
-    clip[3].y = 100;
-    clip[3].w = 100;
-    clip[3].h = 100;
+    clips[3].x = 320;
+    clips[3].y = 240;
+    clips[3].w = 320;
+    clips[3].h = 240;
 
 }
 
@@ -136,7 +137,8 @@ int main( int argc, char* args[] )
 
 
     //Clipping the dots for the example
-    //clip_dots();
+    set_clips();
+    Button myBtn(170,120,320,240,clips[CLIP_MOUSEOUT]);
 
     //Fill the screen white
 	//SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0xFF,0xFF,0xFF));
@@ -151,8 +153,8 @@ int main( int argc, char* args[] )
     //Apply images to the screen
     //apply_surface(0,0,img1,screen,&clip[0]);
     //apply_surface(540,380,img1,screen,&clip[3]);
-	apply_surface(0,0,background,screen,NULL);
-	apply_surface(50,200,message,screen,NULL);
+	//apply_surface(0,0,background,screen,NULL);
+	//apply_surface(50,200,message,screen,NULL);
 	//apply_surface(200,200,img1,screen,NULL);
 
 
@@ -163,6 +165,9 @@ int main( int argc, char* args[] )
 	{
 		if( SDL_PollEvent( &event ) )
 		{
+
+		    myBtn.handle_events(event,clips);
+
 		    if ( event.type == SDL_KEYDOWN ) //If key pressed
 		    {
 		    	switch (event.key.keysym.sym)
@@ -190,14 +195,22 @@ int main( int argc, char* args[] )
 			}
 
 			//If a message needs to be displayed
-			//if (message != NULL)
-			//{
+			if (message != NULL)
+			{
 				apply_surface(0,0,background,screen,NULL);
 				apply_surface(200,200,message,screen,NULL);
 				message = NULL;
-			//}
+			}
+
+
+
+
 		}
 
+
+        //Fill White
+        SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0xFF,0xFF,0xFF));
+        apply_surface(myBtn.getX(), myBtn.getY(), img1,screen, myBtn.getClip());
 
         //Update the screen
         if ( SDL_Flip( screen ) == -1 )
