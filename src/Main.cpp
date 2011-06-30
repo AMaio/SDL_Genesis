@@ -142,7 +142,11 @@ int main( int argc, char* args[] )
 	//SDL_FillRect(screen,&screen->clip_rect,SDL_MapRGB(screen->format,0xFF,0xFF,0xFF));
 
     //Render the text
-    message = TTF_RenderText_Solid(font,"The amazing font appears here!",textColor);
+    //message = TTF_RenderText_Solid(font,"The amazing font appears here!",textColor);
+    SDL_Surface* upMessage = TTF_RenderText_Solid(font,"UP was pressed.",textColor);
+    SDL_Surface* downMessage = TTF_RenderText_Solid(font,"DOWN was pressed.",textColor);
+    SDL_Surface* leftMessage = TTF_RenderText_Solid(font,"LEFT was pressed.",textColor);
+    SDL_Surface* rightMessage = TTF_RenderText_Solid(font,"RIGHT was pressed.",textColor);
 
     //Apply images to the screen
     //apply_surface(0,0,img1,screen,&clip[0]);
@@ -151,11 +155,7 @@ int main( int argc, char* args[] )
 	apply_surface(50,200,message,screen,NULL);
 	//apply_surface(200,200,img1,screen,NULL);
 
-    //Update the screen
-    if ( SDL_Flip( screen ) == -1 )
-    {
-    	return ERR_UPDATE_SCREEN;
-    }
+
 
 
 	//Main LOOP - The Magic Happens Here
@@ -163,11 +163,47 @@ int main( int argc, char* args[] )
 	{
 		if( SDL_PollEvent( &event ) )
 		{
-			if( event.type == SDL_QUIT )
+		    if ( event.type == SDL_KEYDOWN ) //If key pressed
+		    {
+		    	switch (event.key.keysym.sym)
+		    	{
+		    		case SDLK_UP:
+                        message = upMessage;
+		    			break;
+                    case SDLK_DOWN:
+                        message = downMessage;
+		    			break;
+                    case SDLK_LEFT:
+                        message = leftMessage;
+		    			break;
+                    case SDLK_RIGHT:
+                        message = rightMessage;
+		    			break;
+		    		default:
+		    			break;
+		    	}
+
+		    }
+			else if( event.type == SDL_QUIT ) //If quite
 			{
 				quit = true;
 			}
+
+			//If a message needs to be displayed
+			//if (message != NULL)
+			//{
+				apply_surface(0,0,background,screen,NULL);
+				apply_surface(200,200,message,screen,NULL);
+				message = NULL;
+			//}
 		}
+
+
+        //Update the screen
+        if ( SDL_Flip( screen ) == -1 )
+        {
+            return ERR_UPDATE_SCREEN;
+        }
 	}
 
 
