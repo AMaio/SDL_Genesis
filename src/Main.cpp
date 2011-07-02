@@ -7,6 +7,7 @@
 SDL_Surface* screen = NULL; //Screen
 SDL_Surface* background = NULL;
 SDL_Surface* img1 = NULL;
+Mix_Music* music = NULL; //Music that will be played
 SDL_Event event; //For event processing
 SDL_Rect clips[4]; //Array for the clipping
 SDL_Surface* message = NULL; //For TTF test
@@ -15,6 +16,10 @@ SDL_Color textColor = {0,0,0};
 const char* SCREEN_TITLE = "SDL APPLICATION";
 const char* fontFile = "img/Ubuntu-R.ttf";
 const int fontSize = 30;
+Mix_Chunk* scratch = NULL;
+Mix_Chunk* high = NULL;
+Mix_Chunk* med = NULL;
+Mix_Chunk* low = NULL;
 
 //************************************************************//
 //******************** LOADING FUNCTIONS ********************//
@@ -42,6 +47,12 @@ bool init()
 		return false;
 	}
 
+    //Initialize SDL_mixer
+    if ( Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,2,4096) == -1 )
+    {
+    	return false;
+    }
+
 	//Set the window caption
 	SDL_WM_SetCaption( SCREEN_TITLE, NULL );
 
@@ -52,7 +63,7 @@ bool init()
 bool load_files()
 {
 	//Load images
-	background = load_image("img/background.png");
+	background = load_image("img/background1.png");
 	img1 = load_image("img/button.png");
 
     //open the font
@@ -70,6 +81,25 @@ bool load_files()
 	    return false;
 	}
 
+    //Load Music
+    music = Mix_LoadMUS("audio/beat.wav");
+
+    if (music == NULL)
+    {
+    	return false;
+    }
+
+    //Load sounds
+    scratch = Mix_LoadWAV("audio/scratch.wav");
+    high = Mix_LoadWAV("audio/high.wav");
+    med = Mix_LoadWAV("audio/medium.wav");
+    low = Mix_LoadWAV("audio/low.wav");
+
+    if ( (scratch == NULL) || (high == NULL) || (med == NULL) || (low == NULL) )
+    {
+    	return false;
+    }
+
 	//If everything OK
 	return true;
 }
@@ -80,8 +110,20 @@ void clean_up()
 	SDL_FreeSurface( background );
 	SDL_FreeSurface( img1 );
 
+    //Free sounds
+    Mix_FreeChunk(scratch);
+    Mix_FreeChunk(high);
+    Mix_FreeChunk(med);
+    Mix_FreeChunk(low);
+
+    //Free music
+    Mix_FreeMusic(music);
+
 	//Close the font
 	TTF_CloseFont(font);
+
+    //Close audio
+    Mix_CloseAudio();
 
 	//Quit SDL_ttf
 	TTF_Quit();
@@ -162,7 +204,7 @@ int main( int argc, char* args[] )
 	//Main LOOP - The Magic Happens Here
 	while(!quit)
 	{
-		if( SDL_PollEvent( &event ) )
+		while( SDL_PollEvent( &event ) )
 		{
 
 		    myBtn.handle_events(event,clips);
@@ -183,6 +225,30 @@ int main( int argc, char* args[] )
                     case SDLK_RIGHT:
                         message = rightMessage;
 		    			break;
+                    case SDLK_1:
+                        Mix_PlayChannel( -1, scratch, 0 );
+                        break;
+                    case SDLK_2:
+                        Mix_PlayChannel( -1, high, 0 );
+                        break;
+                    case SDLK_3:
+                        Mix_PlayChannel( -1, med, 0 );
+                        break;
+                    case SDLK_4:
+                        Mix_PlayChannel( -1, low, 0 );
+                        break;
+                    case SDLK_9:
+                        if (Mix_PlayingMusic() == 0)//If there is no music playing
+                        {
+                            Mix_PlayMusic(music,0);
+                        }
+                        break;
+                    case SDLK_0:
+                        Mix_HaltMusic();
+                        break;
+                    case SDLK_q:
+                        quit = true;
+                        break;
 		    		default:
 		    			break;
 		    	}
@@ -200,10 +266,6 @@ int main( int argc, char* args[] )
 				apply_surface(200,200,message,screen,NULL);
 				message = NULL;
 			}
-
-
-
-
 		}
 
 
