@@ -159,7 +159,6 @@ int main( int argc, char* args[] )
 
 
 
-
 	//Main LOOP - The Magic Happens Here
 	while(!quit)
 	{

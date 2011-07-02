@@ -36,6 +36,36 @@ void Button::handle_events(SDL_Event evnt, SDL_Rect cli_arr[])
             clip = &cli_arr[CLIP_MOUSEOUT];
         }
     }
+
+    if( evnt.type == SDL_MOUSEBUTTONDOWN )
+    {
+    	if ( evnt.button.button == SDL_BUTTON_LEFT )
+    	{
+    		x = evnt.button.x;
+    		y = evnt.button.y;
+
+    		if ( (x > box.x) && (x < box.x + box.w) && (y > box.y) && (y < box.y+box.h) )
+    		{
+    			clip = &cli_arr[CLIP_MOUSEDOWN];
+    		}
+    	}
+    }
+
+    if ( evnt.type == SDL_MOUSEBUTTONUP)
+    {
+    	if (evnt.button.button == SDL_BUTTON_LEFT)
+    	{
+    		x = evnt.button.x;
+    		y = evnt.button.y;
+
+
+    		if ( (x > box.x) && (x < box.x + box.w) && (y > box.y) && (y < box.y+box.h) )
+    		{
+    			clip = &cli_arr[CLIP_MOUSEUP];
+    		}
+
+    	}
+    }
 }
 
 

@@ -35,6 +35,8 @@
 		<Linker>
 			<Add option="`sdl-config --libs`" />
 		</Linker>
+		<Unit filename="src/Button.cpp" />
+		<Unit filename="src/Button.h" />
 		<Unit filename="src/Event_Handler.cpp" />
 		<Unit filename="src/Event_Handler.h" />
 		<Unit filename="src/Globals.h" />
